@@ -1,5 +1,5 @@
 nav {
-  background-color: hsl(254, 31%, 86%);
+  background-image: linear-gradient(to right, rgb(25, 135, 84), hsl(254, 31%, 86%));
 }
 
 p {

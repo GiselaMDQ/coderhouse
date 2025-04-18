@@ -3,7 +3,8 @@ $darkGreen: rgb(25, 135, 84);
 
 
 nav {
-    background-color: $lightGreen;
+    // background-color: $lightGreen;
+    background-image: linear-gradient(to right, $darkGreen, $lightGreen);
 }
 
 @mixin fontStyle ($fontType) {
