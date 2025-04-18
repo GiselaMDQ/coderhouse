@@ -1,7 +1,17 @@
-$lightGreen:  #d1e7dd;
+$lightGreen:  hsl(254, 31%, 86%);
 $darkGreen: rgb(25, 135, 84);
 
 
 nav {
     background-color: $lightGreen;
+}
+
+@mixin fontStyle ($fontType) {
+    font-family: $fontType;
+   
+}
+
+
+p {
+    @include fontStyle(fantasy)
 }

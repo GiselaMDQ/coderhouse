@@ -2,4 +2,8 @@ nav {
   background-color: hsl(254, 31%, 86%);
 }
 
+p {
+  font-family: fantasy;
+}
+
 /*# sourceMappingURL=styleSass.css.map */
