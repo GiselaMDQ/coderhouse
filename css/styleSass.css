@@ -6,4 +6,8 @@ p {
   font-family: fantasy;
 }
 
+.btn:hover {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=styleSass.css.map */

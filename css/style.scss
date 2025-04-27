@@ -1,10 +1,9 @@
-$lightGreen:  hsl(254, 31%, 86%);
-$darkGreen: rgb(25, 135, 84);
-
+@use 'colors';
+@use 'buttons';
 
 nav {
     // background-color: $lightGreen;
-    background-image: linear-gradient(to right, $darkGreen, $lightGreen);
+    background-image: linear-gradient(to right, colors.$darkGreen, colors.$lightGreen);
 }
 
 @mixin fontStyle ($fontType) {
@@ -12,7 +11,10 @@ nav {
    
 }
 
-
 p {
     @include fontStyle(fantasy)
+}
+
+.btn {
+    @include buttons.hover-btn;
 }

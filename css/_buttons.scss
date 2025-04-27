@@ -1,0 +1,8 @@
+
+@use 'colors';
+
+@mixin hover-btn {
+    &:hover {
+      text-decoration: underline;
+    }
+}
