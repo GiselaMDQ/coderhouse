@@ -4,5 +4,10 @@
 @mixin hover-btn {
     &:hover {
       text-decoration: underline;
+      background-color: colors.$darkGreen;
     }
+}
+
+@mixin btn-color ($color: colors.$lightGreen) {
+  background-color: $color;
 }

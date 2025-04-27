@@ -3,7 +3,7 @@
 
 nav {
     // background-color: $lightGreen;
-    background-image: linear-gradient(to right, colors.$darkGreen, colors.$lightGreen);
+    background-image: linear-gradient(to right, colors.$darkGreen, colors.$lightPurple);
 }
 
 @mixin fontStyle ($fontType) {
@@ -17,4 +17,8 @@ p {
 
 .btn {
     @include buttons.hover-btn;
+}
+
+.btn {
+    @include buttons.btn-color();
 }
