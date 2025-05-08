@@ -1,0 +1,60 @@
+/* NAVEGACION */
+
+@use 'colors';
+
+nav {
+    background-color: colors.$pageBackground;
+    font-family: colors.$fontFamily;
+    border-bottom: 2px solid colors.$lineSeparatorColor;
+}
+
+
+.navbar-nav a:hover {
+    color: colors.$buttonsTextChangeColor !important;
+}
+
+.navbar-nav a:active {
+    color: colors.$buttonsTextChangeColor;
+  }
+
+
+.nav-link {
+    margin-left: 20px;
+    margin-right:20px;
+}
+
+.nav-link .active {
+    color: colors.$buttonsTextChangeColor;
+    text-decoration:solid;
+}
+
+
+.navbar {
+    display: flex;
+    height: 10vh;
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse {
+      justify-content: right !important;
+      text-align: right;
+    }
+  
+    .navbar-nav {
+      width: 100%;
+      flex-direction: column;
+ 
+    }
+  
+    .nav-link {
+      padding: 0.5rem 1rem;
+    
+    }
+
+    .navbar-nav .nav-link {
+        background-color: colors.$linksColor;
+       
+      }
+  }
+
+

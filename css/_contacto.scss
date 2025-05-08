@@ -1,0 +1,78 @@
+
+@use 'colors';
+
+.mainContacto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .mainContacto {
+        width: 100%;
+    }
+}
+    
+
+
+.mainContactoTop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+
+.mainContactoBottom {
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mainContactoBottom img {
+    width: 50%;
+    height: 50%;
+}
+
+.tarjeta {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    height: 250px;
+    margin: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .tarjeta:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+//   .tarjeta button {
+//     background-color: colors.$buttonsColor;
+//     color: black;
+//     border: none;
+//     padding: 10px 16px;
+//     border-radius: 5px;
+//     cursor: pointer;
+//   }
+
+  .sponsors {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+    border-top: 2px solid colors.$lineSeparatorColor;
+  }

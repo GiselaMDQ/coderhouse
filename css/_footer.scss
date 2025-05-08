@@ -1,0 +1,41 @@
+/* FOOTER */
+
+@use 'colors';
+
+.footer {
+
+    background-color: colors.$pageBackground;
+    font-family: colors.$fontFamily;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.footerText {
+    height: inherit;
+    display: flex;
+    margin-left: 15px;
+    align-items: center;
+
+}
+
+.footerText p {
+    height: inherit;
+    margin-top:25%;
+}
+
+
+.footerItem {
+    display: flex;
+    align-items: center;
+   
+}
+
+.bottomSocial {
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

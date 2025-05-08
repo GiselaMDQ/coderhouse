@@ -1,19 +1,11 @@
 @use 'colors';
 @use 'buttons';
+@use 'footer';
+@use 'navigation';
+@use 'main';
+@use 'reportar';
+@use 'contacto';
 
-nav {
-    // background-color: $lightGreen;
-    background-image: linear-gradient(to right, colors.$darkGreen, colors.$lightPurple);
-}
-
-@mixin fontStyle ($fontType) {
-    font-family: $fontType;
-   
-}
-
-p {
-    @include fontStyle(fantasy)
-}
 
 .btn {
     @include buttons.hover-btn;

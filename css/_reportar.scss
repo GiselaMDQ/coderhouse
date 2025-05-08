@@ -1,0 +1,41 @@
+/* REPORTAR */
+
+@use 'colors';
+
+.mainReportar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    width: 80%;
+    flex-direction: column;
+}
+
+ @media (max-width: 980px) {
+     .mainReportar {
+         width: 100%;
+     }
+ }
+
+.form-control:focus {
+    box-shadow: 0 0 0 .25rem colors.$linksColor;
+    border-color: colors.$linksColor;
+}
+
+.form-check-input:checked {
+    border-color: colors.$linksColor;
+    background-color: colors.$buttonsColor;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 3rem;
+}
+
+.cell {
+    margin-bottom: 1rem;
+}
+
+

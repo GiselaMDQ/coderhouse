@@ -2,22 +2,18 @@
 
 /* MAIN */
 
-.main {
-    min-height: 75vh;
+/* .main {
+    min-height: 80vh;
     display:flex;
     width: 100%;
     justify-content: center;
-}
-
-p {
-    color: #343a40;
-}
+} */
 
 
 /* MENU DE NAVEGACION SUPERIOR*/
 
 
-.navbar {
+/* .navbar {
     display: flex;
     height: 10vh;
 }
@@ -38,39 +34,12 @@ p {
       padding: 0.5rem 1rem;
     
     }
-  }
+  } */
 
-
-/* MENU DE NAVEGACION INFERIOR*/
-
-.footer {
-    height: 10vh; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-   
-}
-
-.footerText {
-    align-items: center;
-    margin: 5px 15px;
-}
-
-.footerItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
-
-.bottomSocial {
-    width: 70px;
-    height: 40px;
-}
 
 /* HOME */
 
-
+/* 
 .mainIndex {
     display: flex;
     height: inherit;
@@ -80,6 +49,7 @@ p {
     display: flex;
     align-items: center;
     width: 30%;
+    padding: 5%;
 }
 
 .mainIndexParagraph {
@@ -91,20 +61,20 @@ p {
 .mainIndexParagraph p {
     text-align: center;
     margin: 5%;
-}
+} */
 
 /* REPORTAR Y BUSCAR*/
 
-
+/* 
 .mainReportar {
     display: flex;
     align-items: center;
     justify-content: space-around;
     height: inherit;
     width: inherit;
-}
+} */
 
-
+/* 
 .form-control:focus {
     box-shadow: 0 0 0 .25rem #d1e7dd;
 }
@@ -112,92 +82,14 @@ p {
 .form-check-input:checked {
     border-color: #d1e7dd ;
     background-color: rgb(25, 135, 84);
-}
-/* 
-.mainReportarRight {
-    display: flex;
-    height: inherit;
-    flex-direction: column;
 } */
 
 
-
-/* 
-
---PRUEBA DE GRILLAS PARA REPORTAR ANIMALES PRE-BOOTSTRAP
-
-.gridForm {
-    display: grid;
-    width: inherit;
-    align-self: center;
-    grid-template-areas:    'labelPerdido radioPerdido labelEncontrado radioEncontrado'
-                            'labelTipo labelTipo selectTipo selectTipo'
-                            'labelRaza labelRaza inputRaza inputRaza'
-                            'labelNombreAnimal labelNombreAnimal inputNombreAnimal inputNombreAnimal'
-                            'labelDescripcion labelDescripcion textAreaDescripcion textAreaDescripcion'
-                            'labelDescripcion labelDescripcion textAreaDescripcion textAreaDescripcion'
-                            'labelFoto labelFoto inputFoto inputFoto';
-    gap: 15% 5%;
-}
-
-.gridFormBuscar {
-    display: grid;
-    width: inherit;
-    grid-template-columns: 1fr 1fr 2fr 1fr;
-    grid-template-areas:    'labelPerdido radioPerdido labelEncontrado radioEncontrado'
-                            'labelTipo labelTipo selectTipo selectTipo'
-                            'labelRaza labelRaza inputRaza inputRaza'
-                            'labelFoto labelFoto inputFoto inputFoto';
-    gap: 15% 5%;
-}
-
-.labelPerdido {
-    grid-area: labelPerdido;
-}
-.radioPerdido {
-    grid-area: radioPerdido;
-}
-.labelEncontrado {
-    grid-area:labelEncontrado;
-}
-.radioEncontrado {
-    grid-area:radioEncontrado;
-}
-.labelTipo {
-    grid-area:labelTipo;
-}
-.selectTipo {
-    grid-area:selectTipo;
-}
-.labelRaza {
-    grid-area: labelRaza;
-}
-.inputRaza {
-    grid-area:inputRaza;
-}
-.labelNombreAnimal {
-    grid-area:labelNombreAnimal;
-}
-.inputNombreAnimal {
-    grid-area:inputNombreAnimal;
-}
-.labelDescripcion {
-    grid-area:labelDescripcion;
-}
-.textAreaDescripcion {
-    grid-area: textAreaDescripcion;
-}
-.labelFoto {
-    grid-area:labelFoto;
-}
-.inputFoto {
-    grid-area:inputFoto;
-} */
 
 
 /* CONTACTO */
 
-.mainContacto {
+/* .mainContacto {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -213,16 +105,10 @@ p {
     align-items: center;
 }
 
-.mainContactoBottom {
-    display: flex;
-}
-
-
-
 
 /* SPONSORS */
 
-.mainContactoBottom {
+/* .mainContactoBottom {
     width: inherit;
     display: flex;
     flex-direction: row;
@@ -233,4 +119,4 @@ p {
 .mainContactoBottom img {
     width: 20%;
     height: 40%;
-}
+} */ 

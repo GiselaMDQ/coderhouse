@@ -3,11 +3,14 @@
 
 @mixin hover-btn {
     &:hover {
-      text-decoration: underline;
-      background-color: colors.$darkGreen;
+      background-color: colors.$linksColor;
+      color: colors.$buttonsTextChangeColor;
+      box-shadow: 0 4px 6px colors.$buttonsColor;
     }
 }
 
-@mixin btn-color ($color: colors.$lightGreen) {
+@mixin btn-color ($color: colors.$buttonsColor) {
   background-color: $color;
+
+
 }

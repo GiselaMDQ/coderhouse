@@ -1,0 +1,51 @@
+/* COMPORTAMIENTO MAIN */
+
+@use 'colors';
+
+main {
+    background-color: colors.$pageBackground;
+    min-height: 80vh;
+    display:flex;
+    width: 100%;
+    justify-content: center;
+}
+
+p {
+    color: colors.$textColor;
+    font-family: colors.$fontFamily;
+}
+
+@media (max-width: 768px) {
+.mainIndex {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+.mainIndexImage {
+   padding:0%;
+}
+}
+
+
+.mainIndex {
+    display: flex;
+    height: inherit;
+}
+
+.mainIndexImage {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    padding: 5%;
+}
+
+.mainIndexParagraph {
+    display: flex;
+    height: inherit;
+    width: 70%;
+}
+
+.mainIndexParagraph p {
+    text-align: center;
+    margin: 5%;
+}
