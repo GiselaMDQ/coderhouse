@@ -38,20 +38,21 @@
    </header>
     <main class="main d-flex flex-column">
         <div class="mainReportar container">
-                <form action="resultados.html" method="GET" class="row row-cols-2">
+                <form action="resultados.html" method="GET" class="row row-cols-2" id="formularioBuscar">
                     <div class="cell">
-                        <label">Perdido</label>
-                        <input class="form-check-input" type="radio" name="opcionesRadio">
+                        <label>Perdido</label>
+                        <input class="form-check-input" type="radio" name="opcionesBuscar" value="perdido">
                     </div>
                     <div class="cell">
-                        <label">Encontrado</label>
-                        <input class="form-check-input" type="radio" name="opcionesRadio">
+                        <label>Encontrado</label>
+                        <input class="form-check-input" type="radio" name="opcionesBuscar" value="encontrado">
                     </div>
+                     <div id="errorTipoBuscar" class="cell col-12 text-danger mt-1" style="display: none;">Este campo es obligatorio</div>
                     <div class="cell">
                         <label>(*) Tipo</label>
                     </div>
                     <div>
-                        <select class="cell form-control">
+                        <select class="cell form-control" id="tipoAnimalBuscado">
                             <option>Perro</option>
                             <option>Gato</option>
                         </select>
@@ -60,7 +61,7 @@
                         <label>Raza</label>
                     </div>
                     <div class="cell">      
-                        <input type="text" class="form-control customInput">
+                        <input type="text" class="form-control customInput" id="razaBuscado">
                     </div>
                     <div>
                         <label>(*) Foto</label>
@@ -73,7 +74,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mb-2">
-                    <button type="submit" class="btn">Buscar</button>
+                    <button type="submit" class="btn" id="botonBuscar">Buscar</button>
                 </div> 
                 </form>
             
@@ -88,5 +89,7 @@
         </section>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+     <script src="../js/animal.js"></script>  
+    <script src="../js/buscar.js"></script>
 </body>
 </html>

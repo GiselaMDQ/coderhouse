@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">    
     <title>Resultados</title>
 </head>
-<body>
+<body id="paginaResultados">
     <header>
         <nav class="navbar navbar-expand-md">
             <div class="container-fluid">
@@ -27,7 +27,7 @@
                 <div class="navbar-nav">
                   <a class="nav-link" href="../index.html">Inicio</a>
                   <a class="nav-link" href="../pages/reportar.html">Reportar</a>
-                  <a class="nav-link active" aria-current="page"  href="#">Buscar</a>
+                  <a class="nav-link" href="../pages/buscar.html">Buscar</a>
                   <a class="nav-link" href="../pages/sponsor.html">Sponsors</a>
                   <a class="nav-link" href="../pages/contacto.html">Contacto</a>
                 </div>
@@ -39,17 +39,11 @@
     <main>
         <section class="mainContacto container">
             <section class="mainContactoTop container">
-                <p>Resultados de tu búsqueda</p>
-            </section>
+                <h1>Resultados de tu búsqueda</h1>
+                 <div id="errorSinReportados" style="display: none;">Aún no se han reportado animales</div>
+                <div id="contenedorResultados"></div>
+                </section>
 
-        <script>
-        // Obtiene los parámetros de la URL
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get('query');
-
-        // Muestra la consulta de búsqueda en la página
-        document.getElementById('searchQuery').textContent = query;
-        </script>
         </section>
    </main>
 
@@ -63,5 +57,7 @@
     </section>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+ <script src="../js/animal.js"></script> 
+<script src="../js/resultados.js"></script>
 </body>
 </html>
