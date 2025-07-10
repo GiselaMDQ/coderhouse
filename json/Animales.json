@@ -1,0 +1,182 @@
+[
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "BULLDOG",
+        "nombre": "Roco",
+        "descripcion": "",
+        "fecha": "7/1/2025",
+        "latitud": "-38.00495423",
+        "longitud": "-57.5701966"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "BULLDOG",
+        "nombre": "Tuco",
+        "descripcion": "",
+        "fecha": "7/3/2025",
+        "latitud": "-37.99513979",
+        "longitud": "-57.58083025"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "Alan",
+        "descripcion": "",
+        "fecha": "6/28/2025",
+        "latitud": "-37.99915821",
+        "longitud": "-57.604123"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "Simon",
+        "descripcion": "",
+        "fecha": "6/13/2025",
+        "latitud": "-38.02272495",
+        "longitud": "-57.5631075"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "Negro",
+        "descripcion": "",
+        "fecha": "6/20/2025",
+        "latitud": "-38.01756716",
+        "longitud": "-57.53289444"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "Pancake",
+        "descripcion": "",
+        "fecha": "6/25/2025",
+        "latitud": "-38.0439195",
+        "longitud": "-57.58454358"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "Brisa",
+        "descripcion": "",
+        "fecha": "7/8/2025",
+        "latitud": "-38.08063941",
+        "longitud": "-57.55701436"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Perro",
+        "raza": "CANICHE",
+        "nombre": "Taco",
+        "descripcion": "",
+        "fecha": "7/9/2025",
+        "latitud": "-38.05581833",
+        "longitud": "-57.5706862"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "Negro",
+        "descripcion": "",
+        "fecha": "7/2/2025",
+        "latitud": "-37.99068464",
+        "longitud": "-57.57035093"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "Pitu",
+        "descripcion": "",
+        "fecha": "7/3/2025",
+        "latitud": "-37.96157474",
+        "longitud": "-57.59279974"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "Perla",
+        "descripcion": "",
+        "fecha": "7/3/2025",
+        "latitud": "-37.95876781",
+        "longitud": "-57.55142109"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "Ramon",
+        "descripcion": "",
+        "fecha": "7/9/2025",
+        "latitud": "-37.97348952",
+        "longitud": "-57.54720138"
+    },
+    {
+        "situacion": "perdido",
+        "tipoAnimal": "Gato",
+        "raza": "SIAMES",
+        "nombre": "Reina",
+        "descripcion": "",
+        "fecha": "6/30/2025",
+        "latitud": "-37.97444897",
+        "longitud": "-57.55800382"
+    },
+    {
+        "situacion": "encontrado",
+        "tipoAnimal": "Perro",
+        "raza": "BULLDOG",
+        "nombre": "",
+        "descripcion": "",
+        "fecha": "7/3/2025",
+        "latitud": "",
+        "longitud": ""
+    },
+    {
+        "situacion": "encontrado",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "",
+        "descripcion": "",
+        "fecha": "7/1/2025",
+        "latitud": "",
+        "longitud": ""
+    },
+    {
+        "situacion": "encontrado",
+        "tipoAnimal": "Perro",
+        "raza": "EUROPEO",
+        "nombre": "",
+        "descripcion": "",
+        "fecha": "6/25/2025",
+        "latitud": "",
+        "longitud": ""
+    },
+    {
+        "situacion": "encontrado",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "",
+        "descripcion": "",
+        "fecha": "7/1/2025",
+        "latitud": "",
+        "longitud": ""
+    },
+    {
+        "situacion": "encontrado",
+        "tipoAnimal": "Gato",
+        "raza": "EUROPEO",
+        "nombre": "",
+        "descripcion": "",
+        "fecha": "7/10/2025",
+        "latitud": "",
+        "longitud": ""
+    }
+]

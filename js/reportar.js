@@ -14,11 +14,21 @@ let listaAnimales = [];
     });
 
 
+const URLlistaDeAnimales = "../json/Animales.json";
 
 
-//Funcion para reportar animales almacenando en un array y luego en LocalStorage
+const traerListaDeAnimales = async () => {
+    const resultado = await fetch (URLlistaDeAnimales)
+    let data = await resultado.json()
+    guardarEnSessionStorage("animales",data)
+    return data
+}
+ 
 
-function reportar (listaAnimales) {
+
+//Funcion para reportar animales almacenando en un array y luego en sessionStorage
+
+const reportar = async (listaAnimales) => {
 
     //Obtener datos del formulario
     let situacion = document.querySelector ('input[name="opcionesRadio"]:checked');
@@ -28,19 +38,25 @@ function reportar (listaAnimales) {
     let nombreReportado = document.querySelector('#nombreReportado');
     let descripcionReportado = document.querySelector('#descripcionReportado');
     let errorDiv = document.getElementById("errorTipo");
+    let fecha = dayjs().format('MM/DD/YYYY');
+    debugger
 
     //Obtener animales guardados
-    if (localStorage.getItem('animales')!==null)
-        listaAnimales = JSON.parse(localStorage.getItem('animales'))
+    if (sessionStorage.getItem('animales')===null) 
+        listaAnimales = await traerListaDeAnimales()
+    else
+        listaAnimales = JSON.parse(sessionStorage.getItem('animales'))
+       
 
    //Crear y guardar animal + gestion de error ante radio button no seleccionado
     if (!situacion) {
         errorDiv.style.display = "block";
     } 
     else {
-        let reportado = new Animal (situacion.value,tipoAnimal,razaReportado.value.toUpperCase(), descripcionReportado.value, nombreReportado.value);
+        
+        let reportado = new Animal (situacion.value,tipoAnimal,razaReportado.value.toUpperCase(), descripcionReportado.value, nombreReportado.value,fecha,"","");
         listaAnimales.push(reportado)
-        guardarEnLocalStorage ("animales",listaAnimales)
+        guardarEnSessionStorage ("animales",listaAnimales)
        
         const modal = new bootstrap.Modal(document.getElementById('miModal'));
         modal.show();
@@ -51,11 +67,10 @@ function reportar (listaAnimales) {
 
 
 
-// Guardar en localStorage la informacion de animales perdidos y encontrados, para poder navegar el sitio sin perder la info
-function guardarEnLocalStorage(clave, array) {
-    localStorage.setItem(clave, JSON.stringify(array));
+// Guardar en sessionStorage la informacion de animales perdidos y encontrados, para poder navegar el sitio sin perder la info
+function guardarEnSessionStorage(clave, array) {
+    sessionStorage.setItem(clave, JSON.stringify(array));
 }
-
 
 
 

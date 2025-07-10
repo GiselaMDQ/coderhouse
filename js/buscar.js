@@ -1,10 +1,10 @@
 let listaAnimales;
 
-    document.getElementById("botonBuscar").addEventListener("click", function() {
-        console.log("Se ejecuta el boton buscar")
-        buscar(listaAnimales);
+//     document.getElementById("botonBuscar").addEventListener("click", function() {
+//     console.log("Se ejecuta el boton buscar")
+//     buscar(listaAnimales);
         
-    });
+//  });
 
 
 document.getElementById("formularioBuscar").addEventListener("submit", function (e) {
@@ -21,10 +21,11 @@ document.getElementById("formularioBuscar").addEventListener("submit", function 
         let tipoAnimal = selectTipoAnimal.value;
         let raza = document.querySelector('#razaBuscado');
         let errorDiv = document.getElementById("errorTipoBuscar");
-    
-        console.log(situacion.value);
-        let animalBuscado = new Animal (situacion.value,tipoAnimal,raza.value.toUpperCase(), "","");
-        localStorage.setItem ("animalBuscado",JSON.stringify(animalBuscado));
+
+        let animalBuscado = new Animal (situacion.value,tipoAnimal,raza.value.toUpperCase(),"","","","","");
+
+        sessionStorage.setItem ("animalBuscado",JSON.stringify(animalBuscado));
+
 
         document.getElementById("formularioBuscar").reset();
         errorDiv.style.display = "none";
@@ -32,3 +33,4 @@ document.getElementById("formularioBuscar").addEventListener("submit", function 
     }
 
 });
+
