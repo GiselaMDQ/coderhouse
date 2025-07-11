@@ -39,7 +39,7 @@ const reportar = async (listaAnimales) => {
     let descripcionReportado = document.querySelector('#descripcionReportado');
     let errorDiv = document.getElementById("errorTipo");
     let fecha = dayjs().format('MM/DD/YYYY');
-    debugger
+
 
     //Obtener animales guardados
     if (sessionStorage.getItem('animales')===null) 

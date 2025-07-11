@@ -108,7 +108,7 @@ function crearTabla () {
     listaCoincidencias.forEach(animal => {
         let fila = document.createElement("tr");
         let probabilidad = calcularProbabilidad (animal)
-        debugger
+
 
         fila.innerHTML = `
             <td>${animal.situacion}</td>
