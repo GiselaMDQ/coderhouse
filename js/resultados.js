@@ -1,135 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
-        mostrarResultados();
-
+    mostrarResultados();
 });
 
-const mostrarResultados = async () => {
-
-    //Si ingresaron tipo PERO aun no se reportaron animales
-    let sinReportados;
-    let listaAnimales;
-
-    // Cargar animales desde sessionStorage o desde JSON
-    if (sessionStorage.getItem('animales') === null) {
-        console.log("Cargando animales desde JSON...");
-        listaAnimales = await traerListaDeAnimales();
-    } else {
-        console.log("Cargando animales desde sessionStorage...");
-        listaAnimales = JSON.parse(sessionStorage.getItem('animales'));
-    }
-
-    console.log("Animales cargados:", listaAnimales);
-
-    // Verificar si hay animales cargados
-    if (!listaAnimales || listaAnimales.length === 0) {
-        sinReportados = document.getElementById("errorSinReportados");
-        sinReportados.textContent = "Aún no se han reportado animales";
-        sinReportados.style.display = "block";
+const mostrarResultados = () => {
+    // Obtener las coincidencias que fueron guardadas por buscar.js
+    let listaCoincidenciasStr = sessionStorage.getItem("listaCoincidencias");
+    
+    if (!listaCoincidenciasStr) {
+        const sinReportados = document.getElementById("errorSinReportados");
+        if (sinReportados) {
+            sinReportados.textContent = "No se encontró información de búsqueda. Por favor, realiza una búsqueda primero.";
+            sinReportados.style.display = "block";
+        }
         return;
     }
 
-    // Obtener el animal buscado
-    let animalBuscadoStr = sessionStorage.getItem("animalBuscado");
-    if (!animalBuscadoStr) {
-        sinReportados = document.getElementById("errorSinReportados");
-        sinReportados.textContent = "No se encontró información de búsqueda";
-        sinReportados.style.display = "block";
-        return;
-    }
-
-    let animalBuscado = JSON.parse(animalBuscadoStr);
-    console.log("Animal buscado:", animalBuscado);
-
-    // Filtrar animales: situación y tipoAnimal son obligatorios, raza es opcional
-    let listaCoincidencias = listaAnimales.filter(animal => {
-        let coincideSituacion = animal.situacion === animalBuscado.situacion;
-        let coincideTipo = animal.tipoAnimal === animalBuscado.tipoAnimal;
-        // Si no se especificó raza en la búsqueda, no filtrar por raza
-        let coincideRaza = !animalBuscado.raza || animal.raza === animalBuscado.raza.toUpperCase();
-        
-        return coincideSituacion && coincideTipo && coincideRaza;
-    });
-
+    let listaCoincidencias = JSON.parse(listaCoincidenciasStr);
     console.log("Coincidencias encontradas:", listaCoincidencias.length);
 
-    if (listaCoincidencias.length === 0) {
-        sinReportados = document.getElementById("errorSinReportados");
-        sinReportados.textContent = "No hay animales con esas características";
-        sinReportados.style.display = "block";
-    } else {
-        sessionStorage.setItem("listaCoincidencias", JSON.stringify(listaCoincidencias));
-        crearTabla();
-    }
-    
-    sessionStorage.removeItem("animalBuscado");
-}
-
-        // if (localStorage.getItem('animales') === null) {
-        //     sinReportados = document.getElementById("errorSinReportados")
-        //     sinReportados.style.display = "block"
-        // }
-        // else { //Si hay animales reportados
-        //     //let listaAnimales = JSON.parse(localStorage.getItem('animales'))
-
-        //     let animalBuscado = JSON.parse (localStorage.getItem("animalBuscado"))
-            
-        //     let listaCoincidencias = listaAnimales.filter (
-        //         animal => animal.situacion === animalBuscado.situacion && animal.tipoAnimal === animalBuscado.tipoAnimal && animal.raza === animalBuscado.raza.toUpperCase()
-        //     )
-        //     if (listaCoincidencias.length === 0) {
-        //         sinReportados = document.getElementById("errorSinReportados")
-        //         sinReportados.textContent = "No hay animales con esas caracteristicas"
-        //         sinReportados.style.display = "block"
-        //     }
-        //     else {
-        //         localStorage.setItem("listaCoincidencias",JSON.stringify(listaCoincidencias))
-        //         crearTabla();
-        //     }
-        //     localStorage.removeItem("animalBuscado")
-        // }
-            
-       
-        
-
-
-
-
-const URLlistaDeAnimales = "../json/Animales.json";
-
-
-const traerListaDeAnimales = async () => {
-    try {
-        const resultado = await fetch(URLlistaDeAnimales);
-        if (!resultado.ok) {
-            throw new Error(`Error al cargar el JSON: ${resultado.status}`);
+    if (!listaCoincidencias || listaCoincidencias.length === 0) {
+        const sinReportados = document.getElementById("errorSinReportados");
+        if (sinReportados) {
+            sinReportados.textContent = "No hay animales con esas características";
+            sinReportados.style.display = "block";
         }
-        let data = await resultado.json();
-        guardarEnSessionStorage("animales", data);
-        return data;
-    } catch (error) {
-        console.error("Error al cargar animales:", error);
-        return [];
+    } else {
+        crearTabla(listaCoincidencias);
     }
 }
-    
 
-function crearTabla () {
-    
-    let listaCoincidencias = JSON.parse (sessionStorage.getItem("listaCoincidencias"));
+function crearTabla(listaCoincidencias) {
     let contenedor = document.getElementById("contenedorResultados");
     
     // Limpiar contenedor
     contenedor.innerHTML = '';
     
+    // Ordenar animales por probabilidad: Alta primero, luego Media, luego Baja
+    let animalesOrdenados = listaCoincidencias.sort((a, b) => {
+        let probA = calcularProbabilidad(a);
+        let probB = calcularProbabilidad(b);
+        
+        // Definir orden de prioridad
+        const ordenProbabilidad = { "Alta": 1, "Media": 2, "Baja": 3 };
+        
+        return ordenProbabilidad[probA] - ordenProbabilidad[probB];
+    });
+    
     // Crear contenedor de grid
     let gridContainer = document.createElement("div");
     gridContainer.className = "resultsGrid";
     
-    listaCoincidencias.forEach(animal => {
+    animalesOrdenados.forEach(animal => {
         let probabilidad = calcularProbabilidad(animal);
         let probabilidadClass = probabilidad.toLowerCase();
         
-        // Determinar icono según tipo de animal
+        // Determinar icono según tipo de animal (solo si no hay foto)
         let iconoAnimal = animal.tipoAnimal === "Perro" ? "🐕" : "🐈";
         
         // Determinar badge de situación
@@ -140,9 +65,17 @@ function crearTabla () {
         let card = document.createElement("div");
         card.className = "resultCard";
         
+        // Mostrar foto si existe, sino mostrar emoji
+        let imagenHTML = '';
+        if (animal.foto) {
+            imagenHTML = `<img src="${animal.foto}" alt="Foto de ${animal.nombre || 'animal'}" class="resultCardImage clickeable" data-imagen="${animal.foto}" data-nombre="${animal.nombre || 'animal'}">`;
+        } else {
+            imagenHTML = `<div class="resultCardIcon">${iconoAnimal}</div>`;
+        }
+        
         card.innerHTML = `
             <div class="resultCardHeader">
-                <div class="resultCardIcon">${iconoAnimal}</div>
+                ${imagenHTML}
                 <div class="resultCardTitle">
                     <h3>${animal.nombre || "Sin nombre"}</h3>
                     <span class="badge ${situacionClass}">${situacionTexto}</span>
@@ -182,24 +115,41 @@ function crearTabla () {
     });
     
     contenedor.appendChild(gridContainer);
+    
+    // Agregar event listeners a las imágenes para ampliarlas
+    document.querySelectorAll('.resultCardImage.clickeable').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+            const imagenSrc = this.getAttribute('data-imagen');
+            const nombreAnimal = this.getAttribute('data-nombre');
+            
+            // Configurar el modal
+            const modalImagen = document.getElementById('imagenAmpliada');
+            const modalTitulo = document.getElementById('modalImagenTitulo');
+            
+            if (modalImagen && modalTitulo) {
+                modalImagen.src = imagenSrc;
+                modalTitulo.textContent = `Foto de ${nombreAnimal}`;
+                
+                // Mostrar el modal usando Bootstrap
+                const modal = new bootstrap.Modal(document.getElementById('modalImagenAmpliada'));
+                modal.show();
+            }
+        });
+    });
+    
+    // Limpiar sessionStorage después de mostrar los resultados
     sessionStorage.removeItem("listaCoincidencias");
 }
 
-// Guardar en sessionStorage la informacion de animales perdidos y encontrados, para poder navegar el sitio sin perder la info
-function guardarEnSessionStorage(clave, array) {
-    sessionStorage.setItem(clave, JSON.stringify(array));
-}
-
-function calcularProbabilidad (animal) {
-    let hoy = dayjs()
+function calcularProbabilidad(animal) {
+    let hoy = dayjs();
     let fechaAnimal = dayjs(animal.fecha);
-    let diferencia = hoy.diff(fechaAnimal,'day')
+    let diferencia = hoy.diff(fechaAnimal, 'day');
     if (diferencia <= 5)
-        return "Alta"
-    else
-        if (diferencia <=10)
-            return "Media"
-        else 
-            return "Baja"
-
+        return "Alta";
+    else if (diferencia <= 10)
+        return "Media";
+    else 
+        return "Baja";
 }

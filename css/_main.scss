@@ -3,8 +3,7 @@
 @use 'colors';
 
 body {
-    background: linear-gradient(135deg, colors.$greenVeryLight 0%, colors.$pageBackground 50%, colors.$greenVeryLight 100%);
-    background-attachment: fixed;
+    background: #fafafa;
     min-height: 100vh;
 }
 

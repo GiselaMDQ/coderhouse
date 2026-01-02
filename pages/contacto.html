@@ -35,44 +35,54 @@
             </div>
     </nav>
     </header>
-    <main class="main">
-        <section class="mainContacto container">
-            <section class="mainContactoTop container">
-                <p class="fw-bold fs-4">Quiero colaborar con el proyecto</p>
-                <p class="fst-italic text-muted text-center">--Dejanos tus datos y nos vamos a contactar con vos--</p>
-            </section>
-            <section class="container mainContactoBottom">
-                <form class="row row-cols-2">
-                    <div class="cell">
-                        <label">Nombre y apellido</label>
+    <main class="main d-flex flex-column">
+        <div class="mainContacto container">
+            <div class="formCard">
+                <h2 class="formTitle">Quiero colaborar con el proyecto</h2>
+                <p class="formSubtitle">Dejanos tus datos y nos vamos a contactar con vos</p>
+                <form id="formularioContacto">
+                    <div class="formGroup">
+                        <label class="formLabel required" for="nombreContacto">Nombre y apellido</label>
+                        <input type="text" class="form-control formInput" id="nombreContacto" placeholder="Tu nombre completo" required>
                     </div>
-                    <div class="cell">
-                        <input class="form-control" type="text">
+
+                    <div class="formRow">
+                        <div class="formGroup">
+                            <label class="formLabel required" for="telefonoContacto">Teléfono</label>
+                            <input type="tel" class="form-control formInput" id="telefonoContacto" placeholder="Ej: +54 9 11 1234-5678" required>
+                        </div>
+                        <div class="formGroup">
+                            <label class="formLabel required" for="emailContacto">Email</label>
+                            <input type="email" class="form-control formInput" id="emailContacto" placeholder="tu@email.com" required>
+                        </div>
                     </div>
-                    <div class="cell">
-                    <label>Telefono</label>
+
+                    <div class="formGroup">
+                        <label class="formLabel required" for="propuestaContacto">Contanos tu propuesta</label>
+                        <textarea class="form-control formInput" rows="5" id="propuestaContacto" placeholder="Cuéntanos cómo te gustaría colaborar con el proyecto..." required></textarea>
                     </div>
-                    <div class="cell">      
-                        <input type="number" class="form-control">
-                    </div>
-                    <div class="cell">
-                        <label>Email</label>
-                    </div>
-                    <div class="cell">      
-                        <input type="email" class="form-control">
-                    </div>
-                    <div class="cell">
-                        <label>Contanos tu propuesta</label>
-                    </div>
-                    <div class="cell">      
-                        <textarea class="form-control" rows="3"></textarea>
+
+                    <div class="formActions">
+                        <button type="submit" class="btn btnSubmit">Enviar</button>
                     </div>
                 </form>
-                <div class="d-flex justify-content-center mb-2">
-                    <button type="submit" class="btn">Enviar</button>
-                </div>  
-                </section>
-        </section>
+            </div>
+        </div>
+        <div class="modal fade" id="modalConfirmacionContacto" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¡Gracias por tu interés! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal" id="cerrarConfirmacionContacto">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <footer class="footer">
         <section class="footerText">
@@ -84,5 +94,6 @@
         </section>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="../js/contacto.js"></script>
 </body>
 </html>

@@ -1,34 +1,56 @@
 
-let listaAnimales = [];
 let map = null;
 let marker = null;
 let userLocation = null;
 
 // Inicializar mapa
 function initMap() {
+    // Verificar que el contenedor del mapa existe
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) {
+        console.error('Contenedor del mapa no encontrado');
+        return;
+    }
+
     // Coordenadas por defecto (Argentina - Buenos Aires)
     const defaultLat = -34.6037;
     const defaultLng = -58.3816;
     const defaultZoom = 13;
 
-    // Crear mapa
-    map = L.map('map').setView([defaultLat, defaultLng], defaultZoom);
+    try {
+        // Crear mapa
+        map = L.map('map').setView([defaultLat, defaultLng], defaultZoom);
 
-    // Agregar capa de tiles (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19
-    }).addTo(map);
+        // Agregar capa de tiles (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
 
-    // Permitir hacer clic en el mapa para seleccionar ubicación
-    map.on('click', function(e) {
-        const lat = e.latlng.lat;
-        const lng = e.latlng.lng;
-        setLocation(lat, lng);
-    });
+        // Forzar actualización del mapa después de que se renderice
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 100);
 
-    // Intentar obtener ubicación del usuario al cargar
-    getCurrentLocation();
+        // Permitir hacer clic en el mapa para seleccionar ubicación
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            setLocation(lat, lng);
+        });
+
+        // Intentar obtener ubicación del usuario al cargar (con delay para asegurar que el mapa esté listo)
+        setTimeout(() => {
+            getCurrentLocation();
+        }, 200);
+    } catch (error) {
+        console.error('Error al inicializar el mapa:', error);
+        const locationStatus = document.getElementById('locationStatus');
+        if (locationStatus) {
+            locationStatus.textContent = 'Error al cargar el mapa. Por favor, recarga la página.';
+            locationStatus.style.color = '#dc3545';
+        }
+    }
 }
 
 // Obtener ubicación actual del usuario
@@ -36,74 +58,134 @@ function getCurrentLocation() {
     const locationStatus = document.getElementById('locationStatus');
     
     if (!navigator.geolocation) {
-        locationStatus.textContent = 'La geolocalización no está disponible en tu navegador';
-        locationStatus.style.color = '#dc3545';
+        if (locationStatus) {
+            locationStatus.textContent = 'La geolocalización no está disponible en tu navegador';
+            locationStatus.style.color = '#dc3545';
+        }
         return;
     }
 
-    locationStatus.textContent = 'Obteniendo tu ubicación...';
-    locationStatus.style.color = '#80aa9f';
+    if (locationStatus) {
+        locationStatus.textContent = 'Obteniendo tu ubicación...';
+        locationStatus.style.color = '#80aa9f';
+    }
 
     navigator.geolocation.getCurrentPosition(
         function(position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             userLocation = { lat, lng };
-            setLocation(lat, lng);
-            locationStatus.textContent = 'Ubicación obtenida correctamente';
-            locationStatus.style.color = '#28a745';
+            
+            if (map) {
+                setLocation(lat, lng);
+                if (locationStatus) {
+                    locationStatus.textContent = 'Ubicación obtenida correctamente';
+                    locationStatus.style.color = '#28a745';
+                }
+            } else {
+                console.error('El mapa no está inicializado');
+                if (locationStatus) {
+                    locationStatus.textContent = 'Error: el mapa no está listo. Por favor, recarga la página.';
+                    locationStatus.style.color = '#dc3545';
+                }
+            }
         },
         function(error) {
-            locationStatus.textContent = 'No se pudo obtener tu ubicación. Haz clic en el mapa para seleccionar una ubicación.';
-            locationStatus.style.color = '#ffc107';
+            let errorMessage = 'No se pudo obtener tu ubicación. Haz clic en el mapa para seleccionar una ubicación.';
+            
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'Permiso de geolocalización denegado. Por favor, habilita la ubicación en tu navegador o haz clic en el mapa.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Ubicación no disponible. Haz clic en el mapa para seleccionar una ubicación.';
+                    break;
+                case error.TIMEOUT:
+                    errorMessage = 'Tiempo de espera agotado. Haz clic en el mapa para seleccionar una ubicación.';
+                    break;
+            }
+            
+            if (locationStatus) {
+                locationStatus.textContent = errorMessage;
+                locationStatus.style.color = '#ffc107';
+            }
             console.error('Error obteniendo ubicación:', error);
         },
         {
             enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
+            timeout: 15000,
+            maximumAge: 60000 // Cachear ubicación por 1 minuto
         }
     );
 }
 
 // Establecer ubicación en el mapa
 function setLocation(lat, lng) {
+    if (!map) {
+        console.error('El mapa no está inicializado');
+        return;
+    }
+
     // Actualizar campos ocultos
-    document.getElementById('latitud').value = lat;
-    document.getElementById('longitud').value = lng;
+    const latInput = document.getElementById('latitud');
+    const lngInput = document.getElementById('longitud');
+    
+    if (latInput) latInput.value = lat;
+    if (lngInput) lngInput.value = lng;
 
     // Remover marcador anterior si existe
     if (marker) {
         map.removeLayer(marker);
+        marker = null;
     }
 
-    // Agregar nuevo marcador
-    marker = L.marker([lat, lng], {
-        draggable: true,
-        icon: L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        })
-    }).addTo(map);
-
-    // Centrar mapa en la ubicación
-    map.setView([lat, lng], 15);
-
-    // Permitir arrastrar el marcador
-    marker.on('dragend', function(e) {
-        const position = marker.getLatLng();
-        document.getElementById('latitud').value = position.lat;
-        document.getElementById('longitud').value = position.lng;
+    // Crear icono personalizado (con fallback si la URL falla)
+    const defaultIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
     });
 
-    // Actualizar estado
-    const locationStatus = document.getElementById('locationStatus');
-    locationStatus.textContent = `Ubicación seleccionada: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-    locationStatus.style.color = '#28a745';
+    // Agregar nuevo marcador
+    try {
+        marker = L.marker([lat, lng], {
+            draggable: true,
+            icon: defaultIcon
+        }).addTo(map);
+
+        // Centrar mapa en la ubicación
+        map.setView([lat, lng], 15);
+
+        // Forzar actualización del tamaño del mapa
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 100);
+
+        // Permitir arrastrar el marcador
+        marker.on('dragend', function(e) {
+            const position = marker.getLatLng();
+            if (latInput) latInput.value = position.lat;
+            if (lngInput) lngInput.value = position.lng;
+            
+            const locationStatus = document.getElementById('locationStatus');
+            if (locationStatus) {
+                locationStatus.textContent = `Ubicación actualizada: ${position.lat.toFixed(6)}, ${position.lng.toFixed(6)}`;
+                locationStatus.style.color = '#28a745';
+            }
+        });
+
+        // Actualizar estado
+        const locationStatus = document.getElementById('locationStatus');
+        if (locationStatus) {
+            locationStatus.textContent = `Ubicación seleccionada: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            locationStatus.style.color = '#28a745';
+        }
+    } catch (error) {
+        console.error('Error al establecer ubicación en el mapa:', error);
+    }
 }
 
 // Funcionalidad para las cards de selección
@@ -158,33 +240,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Funcion mediante la que se ejecuta el evento sobre el boton "Reportar"
-document.getElementById("botonReportar").addEventListener("click", function() {
-    console.log("Se ejecuta el boton reportar")
-    reportar(listaAnimales);
-    console.log(listaAnimales)
-});
+    // Funcion mediante la que se ejecuta el evento sobre el boton "Reportar"
+    document.getElementById("botonReportar").addEventListener("click", function() {
+        console.log("Se ejecuta el boton reportar")
+        reportar();
+    });
 
+// URL del backend
+const API_URL = 'http://localhost:3000/api';
 
-const URLlistaDeAnimales = "../json/Animales.json";
-
-
-const traerListaDeAnimales = async () => {
-    const resultado = await fetch (URLlistaDeAnimales)
-    let data = await resultado.json()
-    guardarEnSessionStorage("animales",data)
-    return data
-}
- 
-
-
-//Funcion para reportar animales almacenando en un array y luego en sessionStorage
-
-const reportar = async (listaAnimales) => {
-
+//Funcion para reportar animales enviando al backend
+const reportar = async () => {
     //Obtener datos del formulario
     let situacionSelect = document.querySelector('#situacionSelect');
-    let situacion = situacionSelect && situacionSelect.value ? { value: situacionSelect.value } : null;
+    let situacion = situacionSelect && situacionSelect.value ? situacionSelect.value : null;
     let tipoAnimalRadio = document.querySelector('input[name="tipoAnimal"]:checked');
     let tipoAnimal = tipoAnimalRadio ? tipoAnimalRadio.value : "";
     let razaReportado = document.querySelector('#razaReportado');
@@ -192,14 +261,6 @@ const reportar = async (listaAnimales) => {
     let descripcionReportado = document.querySelector('#descripcionReportado');
     let errorDiv = document.getElementById("errorTipo");
     let fecha = dayjs().format('MM/DD/YYYY');
-
-
-    //Obtener animales guardados
-    if (sessionStorage.getItem('animales')===null) 
-        listaAnimales = await traerListaDeAnimales()
-    else
-        listaAnimales = JSON.parse(sessionStorage.getItem('animales'))
-       
 
    //Crear y guardar animal + gestion de error ante campos obligatorios no seleccionados
     let errorTipoAnimal = document.getElementById("errorTipoAnimal");
@@ -228,52 +289,89 @@ const reportar = async (listaAnimales) => {
     let longitud = document.getElementById('longitud').value;
 
     if (!hasErrors) {
+        // Obtener foto si existe y convertirla a base64
+        let fotoBase64 = "";
+        const fileInput = document.getElementById('fotoReportado');
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            fotoBase64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Crear objeto animal
         let reportado = new Animal (
-            situacion.value,
+            situacion,
             tipoAnimal,
-            razaReportado.value.toUpperCase(),
-            descripcionReportado.value,
-            nombreReportado.value,
+            razaReportado.value ? razaReportado.value.toUpperCase() : "",
+            descripcionReportado.value || "",
+            nombreReportado.value || "",
             fecha,
             latitud || "",
             longitud || ""
         );
-        listaAnimales.push(reportado)
-        guardarEnSessionStorage ("animales",listaAnimales)
-       
-        const modal = new bootstrap.Modal(document.getElementById('miModal'));
-        modal.show();
-        document.getElementById("formularioReportar").reset();
-        // Resetear las cards visualmente (solo las de tipo de animal)
-        document.querySelectorAll('.petCard').forEach(card => {
-            card.classList.remove('selected');
-        });
-        // Resetear preview de imagen
-        const preview = document.getElementById('filePreview');
-        if (preview) {
-            preview.style.display = 'none';
+
+        // Agregar foto al objeto si existe
+        if (fotoBase64) {
+            reportado.foto = fotoBase64;
         }
-        // Resetear mapa
-        if (marker) {
-            map.removeLayer(marker);
-            marker = null;
-        }
-        document.getElementById('latitud').value = '';
-        document.getElementById('longitud').value = '';
-        const locationStatus = document.getElementById('locationStatus');
-        if (locationStatus) {
-            locationStatus.textContent = 'Haz clic en el mapa o usa tu ubicación actual';
-            locationStatus.style.color = '#383938';
+
+        // Enviar al backend
+        try {
+            const response = await fetch(`${API_URL}/animales`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reportado)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Animal guardado:', result);
+                
+                // Mostrar modal de confirmación
+                const modal = new bootstrap.Modal(document.getElementById('miModal'));
+                modal.show();
+                
+                // Resetear formulario
+                document.getElementById("formularioReportar").reset();
+                // Resetear las cards visualmente (solo las de tipo de animal)
+                document.querySelectorAll('.petCard').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                // Resetear preview de imagen
+                const preview = document.getElementById('filePreview');
+                if (preview) {
+                    preview.style.display = 'none';
+                }
+                // Resetear mapa
+                if (marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+                document.getElementById('latitud').value = '';
+                document.getElementById('longitud').value = '';
+                const locationStatus = document.getElementById('locationStatus');
+                if (locationStatus) {
+                    locationStatus.textContent = 'Haz clic en el mapa o usa tu ubicación actual';
+                    locationStatus.style.color = '#383938';
+                }
+            } else {
+                const error = await response.json();
+                console.error('Error al guardar:', error);
+                alert('Error al guardar el animal. Por favor, intenta nuevamente.');
+            }
+        } catch (error) {
+            console.error('Error al enviar al backend:', error);
+            alert('Error de conexión con el servidor. Por favor, verifica que el servidor esté corriendo.');
         }
     }
 }
 
-
-
-// Guardar en sessionStorage la informacion de animales perdidos y encontrados, para poder navegar el sitio sin perder la info
-function guardarEnSessionStorage(clave, array) {
-    sessionStorage.setItem(clave, JSON.stringify(array));
-}
 
 
 

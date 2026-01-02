@@ -336,6 +336,15 @@ textarea.formInput {
     line-height: 1;
 }
 
+.resultCardImage {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid colors.$lineSeparatorColor;
+    flex-shrink: 0;
+}
+
 .resultCardTitle {
     flex: 1;
 }
@@ -502,6 +511,62 @@ textarea.formInput {
     
     .btnLocation {
         width: 100%;
+    }
+}
+
+/* Modal de imagen ampliada */
+.imagenModalContent {
+    background: transparent;
+    border: none;
+}
+
+.imagenModalHeader {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 2px solid colors.$lineSeparatorColor;
+    border-radius: 12px 12px 0 0;
+}
+
+.imagenModalBody {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 12px 12px;
+}
+
+.imagenAmpliada {
+    max-width: 100%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.imagenAmpliada:hover {
+    transform: scale(1.02);
+}
+
+.resultCardImage.clickeable {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resultCardImage.clickeable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(128, 170, 159, 0.4);
+}
+
+@media (max-width: 768px) {
+    .imagenAmpliada {
+        max-height: 70vh;
+    }
+    
+    .imagenModalBody {
+        padding: 1rem;
     }
 }
 

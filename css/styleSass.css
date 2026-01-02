@@ -108,8 +108,7 @@ nav {
 }
 /* COMPORTAMIENTO MAIN */
 body {
-  background: linear-gradient(135deg, #e8f5ed 0%, #f0f7f5 50%, #e8f5ed 100%);
-  background-attachment: fixed;
+  background: #fafafa;
   min-height: 100vh;
 }
 
@@ -527,6 +526,71 @@ textarea.formInput {
   line-height: 1;
 }
 
+.resultCardImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #c6dcd5;
+  flex-shrink: 0;
+}
+
+/* Modal de imagen ampliada */
+.imagenModalContent {
+  background: transparent;
+  border: none;
+}
+
+.imagenModalHeader {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 2px solid #c6dcd5;
+  border-radius: 12px 12px 0 0;
+}
+
+.imagenModalBody {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
+}
+
+.imagenAmpliada {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.imagenAmpliada:hover {
+  transform: scale(1.02);
+}
+
+.resultCardImage.clickeable {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resultCardImage.clickeable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(128, 170, 159, 0.4);
+}
+
+@media (max-width: 768px) {
+  .imagenAmpliada {
+    max-height: 70vh;
+  }
+  
+  .imagenModalBody {
+    padding: 1rem;
+  }
+}
+
 .resultCardTitle {
   flex: 1;
 }
@@ -693,67 +757,107 @@ textarea.formInput {
     width: 100%;
   }
 }
+/* CONTACTO */
 .mainContacto {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: inherit;
-  width: 80%;
+  width: 90%;
+  max-width: 800px;
+  flex-direction: column;
+  padding: 2rem 1rem;
+}
+
+@media (max-width: 980px) {
+  .mainContacto {
+    width: 100%;
+    padding: 1rem;
+  }
+}
+.formSubtitle {
+  font-family: "Inter", sans-serif;
+  color: #383938;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* SPONSOR */
+.sponsorsSection {
+  width: 90%;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 980px) {
+  .sponsorsSection {
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+}
+.sponsorsTitle {
+  font-family: "Inter", sans-serif;
+  color: #383938;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 768px) {
-  .mainContacto {
-    width: 100%;
+  .sponsorsTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 }
-.mainContactoTop {
+.sponsorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+@media (max-width: 768px) {
+  .sponsorsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+.sponsorCard {
+  background: white;
+  border: 2px solid #c6dcd5;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 300px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-}
-
-.mainContactoBottom {
-  width: inherit;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-}
-
-.mainContactoBottom img {
-  width: 50%;
-  height: 50%;
-}
-
-.tarjeta {
-  background-color: white;
-  border-radius: 8px;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 250px;
-  height: 250px;
-  margin: 20px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
-.tarjeta:hover {
+.sponsorCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(128, 170, 159, 0.2);
+  border-color: #80aa9f;
 }
 
-.sponsors {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 40px;
-  border-top: 2px solid #c6dcd5;
+.sponsorImage {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(20%);
+  transition: filter 0.3s ease;
+}
+
+.sponsorCard:hover .sponsorImage {
+  filter: grayscale(0%);
 }
 
 .btn:hover {

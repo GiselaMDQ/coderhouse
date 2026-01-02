@@ -35,56 +35,69 @@
             </div>
     </nav>
     </header>
-    <main class="main">
-        <section class="mainContacto container">
-            <section class="mainContactoTop container">
-                <p class="fw-bold fs-4">Quiero participar como sponsor</p>
-                <p class="fst-italic text-muted text-center">--Dejanos tus datos y nos vamos a contactar con vos--</p>
-            </section>
-            <section class="container mainContactoBottom">
-                <form class="row row-cols-2">
-                    <div class="cell">
-                        <label">Nombre y apellido</label>
+    <main class="main d-flex flex-column">
+        <div class="mainContacto container">
+            <div class="formCard">
+                <h2 class="formTitle">Quiero participar como sponsor</h2>
+                <p class="formSubtitle">Dejanos tus datos y nos vamos a contactar con vos</p>
+                <form id="formularioSponsor">
+                    <div class="formGroup">
+                        <label class="formLabel required" for="nombreSponsor">Nombre y apellido</label>
+                        <input type="text" class="form-control formInput" id="nombreSponsor" placeholder="Tu nombre completo" required>
                     </div>
-                    <div class="cell">
-                        <input class="form-control" type="text">
+
+                    <div class="formGroup">
+                        <label class="formLabel required" for="empresaSponsor">Empresa</label>
+                        <input type="text" class="form-control formInput" id="empresaSponsor" placeholder="Nombre de tu empresa" required>
                     </div>
-                    <div class="cell">
-                        <label">Empresa</label>
+
+                    <div class="formRow">
+                        <div class="formGroup">
+                            <label class="formLabel required" for="telefonoSponsor">Teléfono</label>
+                            <input type="tel" class="form-control formInput" id="telefonoSponsor" placeholder="Ej: +54 9 11 1234-5678" required>
+                        </div>
+                        <div class="formGroup">
+                            <label class="formLabel required" for="emailSponsor">Email</label>
+                            <input type="email" class="form-control formInput" id="emailSponsor" placeholder="tu@email.com" required>
+                        </div>
                     </div>
-                    <div class="cell">
-                        <input class="form-control" type="text">
-                    </div>
-                    <div class="cell">
-                    <label>Telefono</label>
-                    </div>
-                    <div class="cell">      
-                        <input type="number" class="form-control">
-                    </div>
-                    <div class="cell">
-                        <label>Email</label>
-                    </div>
-                    <div class="cell">      
-                        <input type="email" class="form-control">
+
+                    <div class="formActions">
+                        <button type="submit" class="btn btnSubmit">Unirme</button>
                     </div>
                 </form>
-                    <div class="d-flex justify-content-center mb-2">
-                        <button type="submit" class="btn">Unirme</button>
-                    </div>  
-                </section>
-                  <section class="sponsors">
-                        <div class = "tarjeta">
-                                <img src="../images/royal.png" class="img-fluid d-block mx-auto">
-                        </div>
-                        <div class = "tarjeta">
-                            <img src="../images/animalia.png" class="img-fluid d-block mx-auto">
-                        </div>
-                        <div class = "tarjeta">
-                            <img src="../images/doctor paso.png" class="img-fluid d-block mx-auto">
-                        </div>
-                    </section>
+            </div>
+        </div>
+        <div class="modal fade" id="modalConfirmacionSponsor" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¡Gracias por tu interés en ser sponsor! Hemos recibido tu solicitud y nos pondremos en contacto contigo pronto.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal" id="cerrarConfirmacionSponsor">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        </section>
+        <div class="sponsorsSection container">
+            <h3 class="sponsorsTitle">Nuestros Sponsors</h3>
+            <div class="sponsorsGrid">
+                <div class="sponsorCard">
+                    <img src="../images/royal.png" alt="Royal Canin" class="sponsorImage">
+                </div>
+                <div class="sponsorCard">
+                    <img src="../images/animalia.png" alt="Animalia" class="sponsorImage">
+                </div>
+                <div class="sponsorCard">
+                    <img src="../images/doctor paso.png" alt="Doctor Paso" class="sponsorImage">
+                </div>
+            </div>
+        </div>
     </main>
     <footer class="footer">
         <section class="footerText">
@@ -96,5 +109,6 @@
         </section>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="../js/sponsor.js"></script>
 </body>
 </html>
