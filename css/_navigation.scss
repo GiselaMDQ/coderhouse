@@ -3,29 +3,38 @@
 @use 'colors';
 
 nav {
-    background-color: colors.$pageBackground;
+    background: linear-gradient(135deg, colors.$greenMedium 0%, colors.$greenDark 50%, colors.$greenMedium 100%);
     font-family: colors.$fontFamily;
     border-bottom: 2px solid colors.$lineSeparatorColor;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-.navbar-nav a:hover {
-    color: colors.$buttonsTextChangeColor !important;
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
 }
-
-.navbar-nav a:active {
-    color: colors.$buttonsTextChangeColor;
-  }
-
 
 .nav-link {
-    margin-left: 20px;
-    margin-right:20px;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.nav-link .active {
-    color: colors.$buttonsTextChangeColor;
-    text-decoration:solid;
+.nav-link:hover {
+    color: colors.$greenVeryLight !important;
+    transform: translateY(-2px);
+}
+
+
+.navbar-nav a:active {
+    color: colors.$greenVeryLight !important;
+}
+
+.nav-link.active {
+    color: colors.$greenVeryLight !important;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 5px;
 }
 
 
@@ -38,6 +47,10 @@ nav {
     .navbar-collapse {
       justify-content: right !important;
       text-align: right;
+      background-color: rgba(90, 138, 122, 0.95);
+      border-radius: 8px;
+      margin-top: 1rem;
+      padding: 0.5rem;
     }
   
     .navbar-nav {
@@ -48,13 +61,18 @@ nav {
   
     .nav-link {
       padding: 0.5rem 1rem;
-    
+      border-radius: 4px;
+      margin: 0.25rem 0;
     }
 
     .navbar-nav .nav-link {
-        background-color: colors.$linksColor;
-       
-      }
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white !important;
+    }
+    
+    .navbar-nav .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 
 

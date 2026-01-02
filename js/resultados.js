@@ -5,38 +5,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const mostrarResultados = async () => {
 
- //Si ingresaron tipo PERO aun no se reportaron animales
+    //Si ingresaron tipo PERO aun no se reportaron animales
     let sinReportados;
+    let listaAnimales;
 
-    if (sessionStorage.getItem('animales')===null) 
-        listaAnimales = await traerListaDeAnimales()
-    else
-        listaAnimales = JSON.parse(sessionStorage.getItem('animales'))
-  
+    // Cargar animales desde sessionStorage o desde JSON
+    if (sessionStorage.getItem('animales') === null) {
+        console.log("Cargando animales desde JSON...");
+        listaAnimales = await traerListaDeAnimales();
+    } else {
+        console.log("Cargando animales desde sessionStorage...");
+        listaAnimales = JSON.parse(sessionStorage.getItem('animales'));
+    }
 
-        if (listaAnimales === null) {
-            sinReportados = document.getElementById("errorSinReportados")
-            sinReportados.style.display = "block"
-        }
-        else {
-            let animalBuscado = JSON.parse (sessionStorage.getItem("animalBuscado"))
+    console.log("Animales cargados:", listaAnimales);
 
-            let listaCoincidencias = listaAnimales.filter (
-                animal => animal.situacion === animalBuscado.situacion && animal.tipoAnimal === animalBuscado.tipoAnimal && animal.raza === animalBuscado.raza
-            )
-            if (listaCoincidencias.length === 0) {
-                sinReportados = document.getElementById("errorSinReportados")
-                sinReportados.textContent = "No hay animales con esas caracteristicas"
-                sinReportados.style.display = "block"
-            }
-            else {
-                sessionStorage.setItem("listaCoincidencias",JSON.stringify(listaCoincidencias))
-                debugger
-                crearTabla();
-            }
-            sessionStorage.removeItem("animalBuscado")
-        }
-        }
+    // Verificar si hay animales cargados
+    if (!listaAnimales || listaAnimales.length === 0) {
+        sinReportados = document.getElementById("errorSinReportados");
+        sinReportados.textContent = "Aún no se han reportado animales";
+        sinReportados.style.display = "block";
+        return;
+    }
+
+    // Obtener el animal buscado
+    let animalBuscadoStr = sessionStorage.getItem("animalBuscado");
+    if (!animalBuscadoStr) {
+        sinReportados = document.getElementById("errorSinReportados");
+        sinReportados.textContent = "No se encontró información de búsqueda";
+        sinReportados.style.display = "block";
+        return;
+    }
+
+    let animalBuscado = JSON.parse(animalBuscadoStr);
+    console.log("Animal buscado:", animalBuscado);
+
+    // Filtrar animales: situación y tipoAnimal son obligatorios, raza es opcional
+    let listaCoincidencias = listaAnimales.filter(animal => {
+        let coincideSituacion = animal.situacion === animalBuscado.situacion;
+        let coincideTipo = animal.tipoAnimal === animalBuscado.tipoAnimal;
+        // Si no se especificó raza en la búsqueda, no filtrar por raza
+        let coincideRaza = !animalBuscado.raza || animal.raza === animalBuscado.raza.toUpperCase();
+        
+        return coincideSituacion && coincideTipo && coincideRaza;
+    });
+
+    console.log("Coincidencias encontradas:", listaCoincidencias.length);
+
+    if (listaCoincidencias.length === 0) {
+        sinReportados = document.getElementById("errorSinReportados");
+        sinReportados.textContent = "No hay animales con esas características";
+        sinReportados.style.display = "block";
+    } else {
+        sessionStorage.setItem("listaCoincidencias", JSON.stringify(listaCoincidencias));
+        crearTabla();
+    }
+    
+    sessionStorage.removeItem("animalBuscado");
+}
 
         // if (localStorage.getItem('animales') === null) {
         //     sinReportados = document.getElementById("errorSinReportados")
@@ -72,60 +98,91 @@ const URLlistaDeAnimales = "../json/Animales.json";
 
 
 const traerListaDeAnimales = async () => {
-    const resultado = await fetch (URLlistaDeAnimales)
-    let data = await resultado.json()
-    debugger
-    guardarEnSessionStorage("animales",data)
-    return data
+    try {
+        const resultado = await fetch(URLlistaDeAnimales);
+        if (!resultado.ok) {
+            throw new Error(`Error al cargar el JSON: ${resultado.status}`);
+        }
+        let data = await resultado.json();
+        guardarEnSessionStorage("animales", data);
+        return data;
+    } catch (error) {
+        console.error("Error al cargar animales:", error);
+        return [];
+    }
 }
     
 
 function crearTabla () {
     
-    let listaCoincidencias = JSON.parse (sessionStorage.getItem("listaCoincidencias"))
-   
-    let tabla = document.createElement("table");
-
-    tabla.className = "table table-bordered";
-
-    // Crear encabezado
-    let thead = document.createElement("thead");
-   
-    thead.innerHTML = `
-        <tr class="bg-success text-white">
-            <th>Situacion</th>
-            <th>Raza</th>
-            <th>Descripción</th>
-            <th>Nombre</th>
-            <th>Fecha</th>
-            <th>% Match</th>
-        </tr>
-    `;
-    tabla.appendChild(thead);
-
-    // Crear cuerpo de tabla
-    let tbody = document.createElement("tbody");
+    let listaCoincidencias = JSON.parse (sessionStorage.getItem("listaCoincidencias"));
+    let contenedor = document.getElementById("contenedorResultados");
+    
+    // Limpiar contenedor
+    contenedor.innerHTML = '';
+    
+    // Crear contenedor de grid
+    let gridContainer = document.createElement("div");
+    gridContainer.className = "resultsGrid";
+    
     listaCoincidencias.forEach(animal => {
-        let fila = document.createElement("tr");
-        let probabilidad = calcularProbabilidad (animal)
-
-
-        fila.innerHTML = `
-            <td>${animal.situacion}</td>
-            <td>${animal.raza}</td>
-            <td>${animal.descripcion}</td>
-            <td>${animal.nombre}</td>
-             <td>${animal.fecha}</td>
-            <td>${probabilidad}</td>
+        let probabilidad = calcularProbabilidad(animal);
+        let probabilidadClass = probabilidad.toLowerCase();
+        
+        // Determinar icono según tipo de animal
+        let iconoAnimal = animal.tipoAnimal === "Perro" ? "🐕" : "🐈";
+        
+        // Determinar badge de situación
+        let situacionTexto = animal.situacion === "perdido" ? "Perdido" : "Encontrado";
+        let situacionClass = animal.situacion === "perdido" ? "badge-perdido" : "badge-encontrado";
+        
+        // Crear card
+        let card = document.createElement("div");
+        card.className = "resultCard";
+        
+        card.innerHTML = `
+            <div class="resultCardHeader">
+                <div class="resultCardIcon">${iconoAnimal}</div>
+                <div class="resultCardTitle">
+                    <h3>${animal.nombre || "Sin nombre"}</h3>
+                    <span class="badge ${situacionClass}">${situacionTexto}</span>
+                </div>
+            </div>
+            <div class="resultCardBody">
+                <div class="resultCardInfo">
+                    <div class="infoItem">
+                        <span class="infoLabel">Raza:</span>
+                        <span class="infoValue">${animal.raza || "No especificada"}</span>
+                    </div>
+                    <div class="infoItem">
+                        <span class="infoLabel">Tipo:</span>
+                        <span class="infoValue">${animal.tipoAnimal}</span>
+                    </div>
+                    ${animal.descripcion ? `
+                    <div class="infoItem">
+                        <span class="infoLabel">Descripción:</span>
+                        <span class="infoValue">${animal.descripcion}</span>
+                    </div>
+                    ` : ''}
+                    <div class="infoItem">
+                        <span class="infoLabel">Fecha:</span>
+                        <span class="infoValue">${animal.fecha}</span>
+                    </div>
+                </div>
+                <div class="resultCardFooter">
+                    <div class="probabilidadBadge probabilidad-${probabilidadClass}">
+                        <span class="probabilidadLabel">Probabilidad:</span>
+                        <span class="probabilidadValue">${probabilidad}</span>
+                    </div>
+                </div>
+            </div>
         `;
-
-        tbody.appendChild(fila);
+        
+        gridContainer.appendChild(card);
     });
-
-    tabla.appendChild(tbody);
-    document.getElementById("contenedorResultados").appendChild(tabla);
-    sessionStorage.removeItem("listaCoincidencias")
-
+    
+    contenedor.appendChild(gridContainer);
+    sessionStorage.removeItem("listaCoincidencias");
 }
 
 // Guardar en sessionStorage la informacion de animales perdidos y encontrados, para poder navegar el sitio sin perder la info

@@ -7,35 +7,502 @@
     align-items: center;
     justify-content: center;
     height: inherit;
-    width: 80%;
+    width: 90%;
+    max-width: 800px;
+    flex-direction: column;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 980px) {
+    .mainReportar {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+.formCard {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    width: 100%;
+    border: 1px solid colors.$lineSeparatorColor;
+}
+
+@media (max-width: 768px) {
+    .formCard {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+}
+
+.formTitle {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .formTitle {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.formSection {
+    margin-bottom: 2rem;
+}
+
+.formLabel {
+    display: block;
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.formLabel.required::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.cardSelectionGroup {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.selectionCard {
+    flex: 1;
+    min-width: 140px;
+    max-width: 200px;
+    background: colors.$greenVeryLight;
+    border: 2px solid colors.$lineSeparatorColor;
+    border-radius: 16px;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.selectionCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(128, 170, 159, 0.2);
+    border-color: colors.$buttonsColor;
+}
+
+.selectionCard.selected {
+    background: linear-gradient(135deg, colors.$greenLight 0%, colors.$buttonsColor 100%);
+    border-color: colors.$greenDark;
+    box-shadow: 0 4px 12px rgba(128, 170, 159, 0.3);
+}
+
+.selectionCard.selected .cardLabel {
+    color: white;
+    font-weight: 600;
+}
+
+.hiddenRadio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cardIcon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.petIcon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.cardLabel {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.petCard {
+    min-width: 160px;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .formRow {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formInput {
+    border: 2px solid colors.$lineSeparatorColor;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: colors.$greenVeryLight;
+}
+
+.formInput:focus {
+    box-shadow: 0 0 0 0.25rem rgba(128, 170, 159, 0.25);
+    border-color: colors.$buttonsColor;
+    background: white;
+    outline: none;
+}
+
+.formInput::placeholder {
+    color: #999;
+}
+
+textarea.formInput {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.errorMessage {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-family: "Inter", sans-serif;
+}
+
+.filePreview {
+    margin-top: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid colors.$lineSeparatorColor;
+    max-width: 300px;
+}
+
+.filePreview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.formActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btnSubmit {
+    background: linear-gradient(135deg, colors.$buttonsColor 0%, colors.$greenDark 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 3rem;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(128, 170, 159, 0.3);
+}
+
+.btnSubmit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(128, 170, 159, 0.4);
+    background: linear-gradient(135deg, colors.$greenDark 0%, colors.$buttonsColor 100%);
+}
+
+.btnSubmit:active {
+    transform: translateY(0);
+}
+
+/* RESULTADOS */
+.mainResultados {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    width: 90%;
+    max-width: 1200px;
+    flex-direction: column;
+    padding: 2rem 1rem;
+}
+
+@media (max-width: 980px) {
+    .mainResultados {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+.resultsCard {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    width: 100%;
+    border: 1px solid colors.$lineSeparatorColor;
+}
+
+@media (max-width: 768px) {
+    .resultsCard {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+}
+
+.resultsTitle {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .resultsTitle {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.resultsContainer {
+    width: 100%;
+}
+
+.resultsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .resultsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.resultCard {
+    background: colors.$greenVeryLight;
+    border: 2px solid colors.$lineSeparatorColor;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
     flex-direction: column;
 }
 
- @media (max-width: 980px) {
-     .mainReportar {
-         width: 100%;
-     }
- }
-
-.form-control:focus {
-    box-shadow: 0 0 0 .25rem colors.$linksColor;
-    border-color: colors.$linksColor;
+.resultCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(128, 170, 159, 0.2);
+    border-color: colors.$buttonsColor;
 }
 
-.form-check-input:checked {
-    border-color: colors.$linksColor;
-    background-color: colors.$buttonsColor;
-}
-
-.row {
+.resultCardHeader {
     display: flex;
-    justify-content: center;
-    align-content: center;
-    padding: 3rem;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid colors.$lineSeparatorColor;
 }
 
-.cell {
+.resultCardIcon {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.resultCardTitle {
+    flex: 1;
+}
+
+.resultCardTitle h3 {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 8px;
+    font-family: "Inter", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.badge-perdido {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+}
+
+.badge-encontrado {
+    background: linear-gradient(135deg, colors.$greenLight 0%, colors.$buttonsColor 100%);
+    color: white;
+}
+
+.resultCardBody {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.resultCardInfo {
+    flex: 1;
     margin-bottom: 1rem;
+}
+
+.infoItem {
+    margin-bottom: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.infoLabel {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-size: 0.875rem;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.infoValue {
+    font-family: "Inter", sans-serif;
+    color: colors.$textColor;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.resultCardFooter {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 2px solid colors.$lineSeparatorColor;
+}
+
+.probabilidadBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    border-radius: 10px;
+    font-family: "Inter", sans-serif;
+}
+
+.probabilidadLabel {
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.probabilidadValue {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.probabilidad-alta {
+    background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+    color: white;
+}
+
+.probabilidad-media {
+    background: linear-gradient(135deg, #ffd43b 0%, #fcc419 100%);
+    color: #383938;
+}
+
+.probabilidad-baja {
+    background: linear-gradient(135deg, #ff8787 0%, #ff6b6b 100%);
+    color: white;
+}
+
+/* Mapa de Geolocalización */
+.mapControls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.btnLocation {
+    background: linear-gradient(135deg, colors.$greenLight 0%, colors.$buttonsColor 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.625rem 1.5rem;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(128, 170, 159, 0.2);
+    align-self: flex-start;
+}
+
+.btnLocation:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(128, 170, 159, 0.3);
+    background: linear-gradient(135deg, colors.$buttonsColor 0%, colors.$greenDark 100%);
+}
+
+.btnLocation:active {
+    transform: translateY(0);
+}
+
+.locationStatus {
+    font-family: "Inter", sans-serif;
+    font-size: 0.875rem;
+    color: colors.$textColor;
+    font-style: italic;
+}
+
+.mapContainer {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid colors.$lineSeparatorColor;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .mapContainer {
+        height: 300px;
+    }
+    
+    .mapControls {
+        flex-direction: column;
+    }
+    
+    .btnLocation {
+        width: 100%;
+    }
 }
 
 

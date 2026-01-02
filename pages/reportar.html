@@ -8,7 +8,9 @@
     <link rel="stylesheet" href ="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <title>Reportar</title>
 </head>
 <body>
@@ -37,58 +39,86 @@
    </header>
     <main class="main d-flex flex-column">
         <div class="mainReportar container">
-
-                <form class="row row-cols-2" id="formularioReportar">   
-                  <div class="cell">
-                        <label">Perdido</label>
-                        <input class="form-check-input" type="radio" name="opcionesRadio" value="perdido">
-                    </div>
-                    <div class="cell">
-                        <label">Encontrado</label>
-                        <input class="form-check-input" type="radio" name="opcionesRadio" value="encontrado">
-                    </div>
-                    <div id="errorTipo" class="cell col-12 text-danger mt-1" style="display: none;">Este campo es obligatorio</div>
-                    <div class="cell">
-                        <label>(*) Tipo</label>
-                    </div>
-                    <div>
-                        <select class="cell form-control" id="tipoAnimalReportado">
-                            <option>Perro</option>
-                            <option>Gato</option>
+            <div class="formCard">
+                <h2 class="formTitle">Reportar Animal</h2>
+                <form id="formularioReportar">
+                    <!-- Situación: Perdido/Encontrado -->
+                    <div class="formSection">
+                        <label class="formLabel required" for="situacionSelect">Situación</label>
+                        <select class="form-control formInput" id="situacionSelect" name="opcionesRadio">
+                            <option value="">Seleccione una opción</option>
+                            <option value="perdido">🔍 Perdido</option>
+                            <option value="encontrado">✨ Encontrado</option>
                         </select>
+                        <div id="errorTipo" class="errorMessage" style="display: none;">Este campo es obligatorio</div>
                     </div>
-                    <div class="cell">
-                        <label>Raza</label>
+
+                    <!-- Tipo: Perro/Gato -->
+                    <div class="formSection">
+                        <label class="formLabel required">Tipo de Animal</label>
+                        <div class="cardSelectionGroup">
+                            <div class="selectionCard petCard" data-value="Perro">
+                                <input type="radio" name="tipoAnimal" value="Perro" id="tipoPerro" class="hiddenRadio">
+                                <div class="cardContent">
+                                    <div class="petIcon">🐕</div>
+                                    <div class="cardLabel">Perro</div>
+                                </div>
+                            </div>
+                            <div class="selectionCard petCard" data-value="Gato">
+                                <input type="radio" name="tipoAnimal" value="Gato" id="tipoGato" class="hiddenRadio">
+                                <div class="cardContent">
+                                    <div class="petIcon">🐈</div>
+                                    <div class="cardLabel">Gato</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorTipoAnimal" class="errorMessage" style="display: none;">Este campo es obligatorio</div>
                     </div>
-                    <div class="cell">      
-                        <input type="text" class="form-control customInput" id="razaReportado">
+
+                    <!-- Campos de texto -->
+                    <div class="formRow">
+                        <div class="formGroup">
+                            <label class="formLabel" for="razaReportado">Raza</label>
+                            <input type="text" class="form-control formInput" id="razaReportado" placeholder="Ej: Labrador, Persa...">
+                        </div>
+                        <div class="formGroup">
+                            <label class="formLabel" for="nombreReportado">Nombre</label>
+                            <input type="text" class="form-control formInput" id="nombreReportado" placeholder="Nombre del animal">
+                        </div>
                     </div>
-                    <div class="cell">
-                        <label>Nombre</label>
+
+                    <div class="formGroup">
+                        <label class="formLabel" for="descripcionReportado">Descripción</label>
+                        <textarea class="form-control formInput" rows="4" id="descripcionReportado" placeholder="Describe características físicas, color, tamaño, etc."></textarea>
                     </div>
-                    <div class="cell">      
-                        <input type="text" class="form-control" id="nombreReportado">
+
+                    <div class="formGroup">
+                        <label class="formLabel required" for="fotoReportado">Foto</label>
+                        <input type="file" class="form-control formInput" id="fotoReportado" accept="image/*">
+                        <div class="filePreview" id="filePreview" style="display: none;">
+                            <img id="previewImage" src="" alt="Vista previa">
+                        </div>
                     </div>
-                    <div class="cell">
-                        <label>Descripción</label>
+
+                    <!-- Mapa de Geolocalización -->
+                    <div class="formSection">
+                        <label class="formLabel">Ubicación (opcional)</label>
+                        <div class="mapControls">
+                            <button type="button" class="btn btnLocation" id="btnUbicacionActual">
+                                📍 Usar mi ubicación actual
+                            </button>
+                            <span class="locationStatus" id="locationStatus">Haz clic en el mapa o usa tu ubicación actual</span>
+                        </div>
+                        <div id="map" class="mapContainer"></div>
+                        <input type="hidden" id="latitud" name="latitud">
+                        <input type="hidden" id="longitud" name="longitud">
                     </div>
-                    <div class="cell">      
-                        <textarea class="form-control" rows="3" id="descripcionReportado"></textarea>
+
+                    <div class="formActions">
+                        <button type="button" class="btn btnSubmit" id="botonReportar">Reportar</button>
                     </div>
-                    <div class="cell">
-                        <label>(*) Foto</label>
-                    </div>
-                    <div class="cell">      
-                        <input type="file" class="form-control">
-                    </div>
-                    <div class="justify-content-center align-items-center">
-                        <img class="img-fluid p-4" src="../images/mardel.jpg"> 
-                    </div>
-                </div>
-                 <div class="d-flex justify-content-center mb-2">
-                    <button type="button" class="btn"id="botonReportar">Reportar</button>
-                </div>  
                 </form>
+            </div>
                 <div class="modal fade" id="miModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -116,8 +146,9 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="../js/animal.js"></script>
     <script src="../js/reportar.js"></script>
-</body>
 </body>
 </html>

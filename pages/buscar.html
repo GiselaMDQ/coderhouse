@@ -8,12 +8,14 @@
     <link rel="stylesheet" href ="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <title>Buscar</title>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md">
+        <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <section class ="container">
@@ -27,57 +29,77 @@
                 <div class="navbar-nav">
                   <a class="nav-link" href="../index.html">Inicio</a>
                   <a class="nav-link" href="../pages/reportar.html">Reportar</a>
-                  <a class="nav-link active" aria-current="page"  href="#">Buscar</a>
+                  <a class="nav-link active" aria-current="page" href="#">Buscar</a>
                   <a class="nav-link" href="../pages/sponsor.html">Sponsors</a>
                   <a class="nav-link" href="../pages/contacto.html">Contacto</a>
                 </div>
               </div>
             </div>
     </nav>
-      
    </header>
     <main class="main d-flex flex-column">
         <div class="mainReportar container">
-                <form action="resultados.html" method="GET" class="row row-cols-2" id="formularioBuscar">
-                    <div class="cell">
-                        <label>Perdido</label>
-                        <input class="form-check-input" type="radio" name="opcionesBuscar" value="perdido">
-                    </div>
-                    <div class="cell">
-                        <label>Encontrado</label>
-                        <input class="form-check-input" type="radio" name="opcionesBuscar" value="encontrado">
-                    </div>
-                     <div id="errorTipoBuscar" class="cell col-12 text-danger mt-1" style="display: none;">Este campo es obligatorio</div>
-                    <div class="cell">
-                        <label>(*) Tipo</label>
-                    </div>
-                    <div>
-                        <select class="cell form-control" id="tipoAnimalBuscado">
-                            <option>Perro</option>
-                            <option>Gato</option>
+            <div class="formCard">
+                <h2 class="formTitle">Buscar Animal</h2>
+                <form action="resultados.html" method="GET" id="formularioBuscar">
+                    <!-- Situación: Perdido/Encontrado -->
+                    <div class="formSection">
+                        <label class="formLabel required" for="situacionSelectBuscar">Situación</label>
+                        <select class="form-control formInput" id="situacionSelectBuscar" name="opcionesBuscar">
+                            <option value="">Seleccione una opción</option>
+                            <option value="perdido">🔍 Perdido</option>
+                            <option value="encontrado">✨ Encontrado</option>
                         </select>
+                        <div id="errorTipoBuscar" class="errorMessage" style="display: none;">Este campo es obligatorio</div>
                     </div>
-                    <div class="cell">
-                        <label>Raza</label>
+
+                    <!-- Tipo: Perro/Gato -->
+                    <div class="formSection">
+                        <label class="formLabel required">Tipo de Animal</label>
+                        <div class="cardSelectionGroup">
+                            <div class="selectionCard petCard" data-value="Perro">
+                                <input type="radio" name="tipoAnimalBuscar" value="Perro" id="tipoPerroBuscar" class="hiddenRadio">
+                                <div class="cardContent">
+                                    <div class="petIcon">🐕</div>
+                                    <div class="cardLabel">Perro</div>
+                                </div>
+                            </div>
+                            <div class="selectionCard petCard" data-value="Gato">
+                                <input type="radio" name="tipoAnimalBuscar" value="Gato" id="tipoGatoBuscar" class="hiddenRadio">
+                                <div class="cardContent">
+                                    <div class="petIcon">🐈</div>
+                                    <div class="cardLabel">Gato</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="errorTipoAnimalBuscar" class="errorMessage" style="display: none;">Este campo es obligatorio</div>
                     </div>
-                    <div class="cell">      
-                        <input type="text" class="form-control customInput" id="razaBuscado">
+
+                    <!-- Campo de Raza -->
+                    <div class="formGroup">
+                        <label class="formLabel" for="razaBuscado">Raza</label>
+                        <input type="text" class="form-control formInput" id="razaBuscado" placeholder="Ej: Labrador, Persa... (opcional)">
                     </div>
-                    <div>
-                        <label>(*) Foto</label>
+
+                    <!-- Mapa de Geolocalización -->
+                    <div class="formSection">
+                        <label class="formLabel">Ubicación de búsqueda (opcional)</label>
+                        <div class="mapControls">
+                            <button type="button" class="btn btnLocation" id="btnUbicacionActualBuscar">
+                                📍 Usar mi ubicación actual
+                            </button>
+                            <span class="locationStatus" id="locationStatusBuscar">Haz clic en el mapa o usa tu ubicación actual</span>
+                        </div>
+                        <div id="mapBuscar" class="mapContainer"></div>
+                        <input type="hidden" id="latitudBuscar" name="latitud">
+                        <input type="hidden" id="longitudBuscar" name="longitud">
                     </div>
-                    <div class="cell">      
-                        <input type="file" class="form-control">
+
+                    <div class="formActions">
+                        <button type="submit" class="btn btnSubmit" id="botonBuscar">Buscar</button>
                     </div>
-                    <div class="justify-content-center align-items-center">
-                        <img class="img-fluid p-4" src="../images/mardel.jpg"> 
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mb-2">
-                    <button type="submit" class="btn" id="botonBuscar">Buscar</button>
-                </div> 
                 </form>
-            
+            </div>
     </main> 
     <footer class="footer">
         <section class="footerText">
@@ -89,7 +111,9 @@
         </section>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-     <script src="../js/animal.js"></script>  
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../js/animal.js"></script>  
     <script src="../js/buscar.js"></script>
 </body>
 </html>

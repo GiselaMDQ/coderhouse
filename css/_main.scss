@@ -2,12 +2,19 @@
 
 @use 'colors';
 
+body {
+    background: linear-gradient(135deg, colors.$greenVeryLight 0%, colors.$pageBackground 50%, colors.$greenVeryLight 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
 main {
-    background-color: colors.$pageBackground;
+    background: transparent;
     min-height: 80vh;
     display:flex;
     width: 100%;
     justify-content: center;
+    padding: 2rem 0;
 }
 
 p {
@@ -16,36 +23,85 @@ p {
 }
 
 @media (max-width: 768px) {
-.mainIndex {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-.mainIndexImage {
-   padding:0%;
-}
+    .mainIndex {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+    
+    .mainIndexImage {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .mainIndexParagraph {
+        width: 100%;
+    }
+    
+    .mainIndexCard {
+        padding: 2rem;
+    }
+    
+    .mainIndexParagraph p {
+        font-size: 1rem;
+    }
 }
 
 
 .mainIndex {
     display: flex;
     height: inherit;
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    padding: 2rem;
 }
 
 .mainIndexImage {
     display: flex;
     align-items: center;
-    width: 30%;
-    padding: 5%;
+    width: 40%;
+    padding: 0;
+}
+
+.mainIndexImage img {
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 .mainIndexParagraph {
     display: flex;
     height: inherit;
-    width: 70%;
+    width: 60%;
+    align-items: center;
 }
 
 .mainIndexParagraph p {
     text-align: center;
-    margin: 5%;
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: colors.$textColor;
 }
+
+/* Card para el contenido principal */
+.mainIndexCard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid colors.$lineSeparatorColor;
+}
+
+//.mainIndexCard:hover {
+//    transform: translateY(-4px);
+//    box-shadow: 0 12px 32px rgba(colors.$greenMedium, 0.2);
+//}
